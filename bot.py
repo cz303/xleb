@@ -15,7 +15,7 @@ class User:
 
 @bot.message_handler(commands=['start'])  #команда#
 def handle_start(message):
-    bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=olztRgAZmDA&t=6s")
+    bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=olztRgAZmDA&t=6s",reply_markup=user_markup)
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     callback_button = types.InlineKeyboardButton(text="💳 Оплатить 3500 рублей",callback_data="oplata")
     callback_button1 = types.InlineKeyboardButton(text="❓Остались вопросы ", callback_data="vopros")
