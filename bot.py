@@ -12,8 +12,7 @@ user_dict = {}
 class User:
     def __init__(self, name):
         self.name = name
-        
-        
+
 @bot.message_handler(commands=['start'])  #команда#
 def handle_start(message):
     bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=olztRgAZmDA&t=6s")
@@ -25,7 +24,7 @@ def handle_start(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(True) #клавиатура#
     user_markup.row('💳 Оплатить 3500 рублей')
     user_markup.row('❓Остались вопросы')
-    directory = 'files/video'
+    directory = 'C:/Users/user/PycharmProjects/Telegram/files/video'
     all_files_in_directory = os.listdir(directory)
     print(all_files_in_directory)
     for file in all_files_in_directory:
