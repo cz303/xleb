@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import telebot
 from telebot import types
 import os
-
+import re
 
 bot = telebot.TeleBot("798479889:AAGqp-ru8qkpCS9a6zkeS6D7iXGMsTxMmjo")
 
@@ -13,7 +12,7 @@ class User:
     def __init__(self, name):
         self.name = name
 
-@bot.message_handler(commands=['start'])  #команда#
+@bot.message_handler(func=lambda m: m.text in ('start', '/start', '/Start'))
 def handle_start(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(True) #клавиатура#
     user_markup.row('💳 Оплатить 3500 рублей')
@@ -25,13 +24,15 @@ def handle_start(message):
     keyboard.add(callback_button, callback_button1)
     bot.send_message(message.chat.id, " *🔥 Litvin Stavit*  \nМесячная подписка \n*После оплаты у тебя будет:*\n \n *1⃣ Личный кабинет* в телеграм-боте с обучением по ставкам. (Как ставить? Где ставить? Доп. техники. И тд)\n*2⃣ 130-150 прогнозов* в месяц со средней доходностью 280% в месяц. 4-6 ставок в день с проходимостью 85%\n3⃣ *Полное сопровождение* по всем ставкам + помощь по любым вопросам в течении всего месяца\n4⃣ *Дополнительный бонус* от Litvin Stavit после оплаты\n\n✅ В среднем вложенные деньги отбиваются за 3 дня\n\n💳 Стоимость: 3500 рублей\n⬇️*Если готов начать, Жми*",parse_mode="Markdown",reply_markup=keyboard)
     directory = 'files/video'
+    #directory = 'C:/Users/user/PycharmProjects/Telegram/files/video'
     all_files_in_directory = os.listdir(directory)
     print(all_files_in_directory)
     for file in all_files_in_directory:
         img = open(directory + '/' + file, 'rb')
         bot.send_video_note(message.chat.id, img)
         img.close()
-        
+
+
 @bot.message_handler(func=lambda m: m.text in ('stop', '/stop', '💳 Оплатить 3500 рублей'))
 def send_welcome( message):
     msg = bot.send_message(message.chat.id, "📧 Введите свой e-mail")
@@ -40,21 +41,29 @@ def send_welcome( message):
 
 def process_name_step(message):
     try:
+
         chat_id = message.chat.id
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        hide_markup = telebot.types.ReplyKeyboardMarkup()
-        url_button5 = types.InlineKeyboardButton(text='💳 Оплатить 3500 рублей', url='http://t.me/litvin_stavit_oplata')
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        keyboard.add(url_button5)
+        pattern = r"[^@]+@[^@]+\.[^@]+"
 
-        bot.send_message(chat_id, '✅ Спасибо,'+ str(message.from_user.first_name) +' \nE-mail: '  + user.name + "\n📲 Ваш личный кабинет готов. После оплаты, вы сразу получите доступ\n\nВаша ссылка на оплату генерируется...", parse_mode="Markdown")
-        bot.send_message(message.chat.id,'Нажмите на кнопку ниже - вы перейдете на страницу где сможете выбрать способ оплаты',reply_markup=keyboard)
+        if re.search(pattern, name):
+            bot.send_message(message.chat.id,"found")
+            hide_markup = telebot.types.ReplyKeyboardMarkup()
+            url_button5 = types.InlineKeyboardButton(text='💳 Оплатить 3500 рублей',url='http://t.me/litvin_stavit_oplata')
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            keyboard.add(url_button5)
 
+            bot.send_message(chat_id, '✅ Спасибо,' + str(
+                message.from_user.first_name) + ' \nE-mail: ' + user.name + "\n📲 Ваш личный кабинет готов. После оплаты, вы сразу получите доступ\n\nВаша ссылка на оплату генерируется...",parse_mode="Markdown")
+            bot.send_message(message.chat.id,'Нажмите на кнопку ниже - вы перейдете на страницу где сможете выбрать способ оплаты',reply_markup=keyboard)
+        else:
+            msg=bot.send_message(message.chat.id, 'Введите правильный e-mail\n(Пример: ivan@mail.ru)',parse_mode="Markdown")
+            bot.register_next_step_handler(msg, process_name_step)
 
     except Exception as e:
-        bot.reply_to(message, 'oooops')
+        bot.send_message(message.chat.id, 'Введите правильный e-mail\n(Пример: ivan@mail.ru)', parse_mode="Markdown")
 
 
 @bot.message_handler(func=lambda m: m.text in ('help', '/help', '❓Остались вопросы'))
