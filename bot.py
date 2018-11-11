@@ -45,7 +45,7 @@ def process_name_step(message):
         user = User(name)
         user_dict[chat_id] = user
         hide_markup = telebot.types.ReplyKeyboardMarkup()
-        url_button5 = types.InlineKeyboardButton(text='💳 Оплатить 3500 рублей', url='http://www.free-kassa.ru/merchant/cash.php?m=99072&oa=3500&o=9466&s=791b3699e6cf8d40753f981b4b2008bd&lang=ru&i=&em='+user.name+'.com&us_id=9489')
+        url_button5 = types.InlineKeyboardButton(text='💳 Оплатить 3500 рублей', url='http://t.me/litvin_stavit_oplata')
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         keyboard.add(url_button5)
 
