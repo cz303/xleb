@@ -4,7 +4,7 @@ from telebot import types
 import os
 import re
 
-bot = telebot.TeleBot("798479889:AAGqp-ru8qkpCS9a6zkeS6D7iXGMsTxMmjo")
+bot = telebot.TeleBot("747831311:AAE8AGcj0Tk_-GhYgJRCzl9gFGftmw0cjqk")
 
 user_dict = {}
 
@@ -49,7 +49,6 @@ def process_name_step(message):
         pattern = r"[^@]+@[^@]+\.[^@]+"
 
         if re.search(pattern, name):
-            bot.send_message(message.chat.id,"found")
             hide_markup = telebot.types.ReplyKeyboardMarkup()
             url_button5 = types.InlineKeyboardButton(text='💳 Оплатить 3500 рублей',url='http://t.me/litvin_stavit_oplata')
             keyboard = types.InlineKeyboardMarkup(row_width=1)
