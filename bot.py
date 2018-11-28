@@ -15,7 +15,7 @@ class User:
 @bot.message_handler(func=lambda m: m.text in ('start', '/start', '/Start'))
 def handle_start(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(True) #клавиатура#
-    user_markup.row('💳 Оплатить 3500 рублей')
+    user_markup.row('💳 Оплатить 3500')
     user_markup.row('❓Остались вопросы')
     bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=olztRgAZmDA&t=6s", reply_markup=user_markup)
     keyboard = types.InlineKeyboardMarkup(row_width=1)
