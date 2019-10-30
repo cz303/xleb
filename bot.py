@@ -4,7 +4,7 @@ from telebot import types
 import os
 import re
 
-bot = telebot.TeleBot("791752625:659414060:AAFwq-ZT-IJVkGGS78o4N4NFfw_1BkMIU5Q")
+bot = telebot.TeleBot("659414060:AAFwq-ZT-IJVkGGS78o4N4NFfw_1BkMIU5Q")
 
 user_dict = {}
 
